@@ -48,7 +48,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="pt-4 border-t border-primary/20">
                   <p className="text-sm font-paragraph text-foreground/70 mb-4">
-                    Para alterar informações da conta, entre em contato com o suporte.
+                    Suas informações de conta são gerenciadas localmente e de forma segura.
                   </p>
                 </div>
               </div>

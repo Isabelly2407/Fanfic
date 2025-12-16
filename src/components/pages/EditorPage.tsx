@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useStoryStore } from '@/stores/storyStore';
-import { Plus, Save, PenTool, HelpCircle, AlertCircle, CheckCircle, BookOpen } from 'lucide-react';
+import { Plus, Save, PenTool, AlertCircle, CheckCircle, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function EditorPage() {
@@ -24,9 +24,6 @@ export default function EditorPage() {
   const [events, setEvents] = useState<EventosdaLinhadoTempo[]>([]);
   const [loading, setLoading] = useState(true);
   const [showNewStory, setShowNewStory] = useState(false);
-  const [showAssistance, setShowAssistance] = useState(false);
-  const [assistanceType, setAssistanceType] = useState<'technical' | 'narrative'>('technical');
-  const [assistanceResults, setAssistanceResults] = useState<string[]>([]);
   
   const [newStory, setNewStory] = useState({
     title: '',
@@ -160,47 +157,6 @@ export default function EditorPage() {
         variant: 'destructive',
       });
     }
-  };
-
-  const runAssistance = () => {
-    const content = editContent.storyContent;
-    const results: string[] = [];
-
-    if (assistanceType === 'technical') {
-      // Simulação de revisão técnica
-      if (content.includes('  ')) {
-        results.push('Espaços duplos detectados - verifique formatação');
-      }
-      if (!/[.!?]$/.test(content.trim()) && content.trim().length > 0) {
-        results.push('Texto pode estar incompleto - falta pontuação final');
-      }
-      if (content.split('\n\n').length < 2 && content.length > 200) {
-        results.push('Considere dividir em parágrafos para melhor legibilidade');
-      }
-      if (results.length === 0) {
-        results.push('Nenhum problema técnico detectado');
-      }
-    } else {
-      // Simulação de análise narrativa
-      const characterNames = characters.map(c => c.name?.toLowerCase());
-      const mentionedChars = characterNames.filter(name => 
-        name && content.toLowerCase().includes(name)
-      );
-      
-      if (mentionedChars.length === 0 && characters.length > 0) {
-        results.push('Nenhum personagem da história foi mencionado neste trecho');
-      }
-      
-      if (content.length < 100) {
-        results.push('Trecho muito curto - considere desenvolver mais a cena');
-      }
-      
-      if (results.length === 0) {
-        results.push('Narrativa coerente - continue desenvolvendo!');
-      }
-    }
-
-    setAssistanceResults(results);
   };
 
   const insertLink = (type: 'character' | 'event', id: string, name: string) => {
@@ -372,51 +328,6 @@ export default function EditorPage() {
                         )}
                       </div>
                       <div className="flex gap-2">
-                        <Dialog open={showAssistance} onOpenChange={setShowAssistance}>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" className="border-secondary text-secondary hover:bg-secondary/10">
-                              <HelpCircle className="w-4 h-4 mr-2" />
-                              Assistência
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="bg-graphite border-primary/20 max-w-2xl">
-                            <DialogHeader>
-                              <DialogTitle className="text-foreground font-heading">Assistência de Escrita</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4">
-                              <div>
-                                <label className="text-sm font-paragraph text-foreground/70 mb-2 block">Tipo de Análise</label>
-                                <Select value={assistanceType} onValueChange={(value: 'technical' | 'narrative') => setAssistanceType(value)}>
-                                  <SelectTrigger className="bg-background border-primary/20 text-foreground">
-                                    <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent className="bg-graphite border-primary/20">
-                                    <SelectItem value="technical">Revisão Técnica</SelectItem>
-                                    <SelectItem value="narrative">Análise Narrativa</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </div>
-                              <Button onClick={runAssistance} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                                Analisar Texto
-                              </Button>
-                              {assistanceResults.length > 0 && (
-                                <div className="space-y-2">
-                                  <h4 className="text-sm font-heading font-semibold text-foreground">Resultados:</h4>
-                                  {assistanceResults.map((result, index) => (
-                                    <div key={index} className="flex items-start gap-2 p-3 bg-background rounded-lg">
-                                      {result.includes('Nenhum') || result.includes('coerente') ? (
-                                        <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
-                                      ) : (
-                                        <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                      )}
-                                      <p className="text-foreground/80 font-paragraph text-sm">{result}</p>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          </DialogContent>
-                        </Dialog>
                         <Button onClick={handleSaveContent} className="bg-primary text-primary-foreground hover:bg-primary/90">
                           <Save className="w-4 h-4 mr-2" />
                           Salvar

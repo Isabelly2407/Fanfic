@@ -486,9 +486,9 @@ export default function HomePage() {
                   <Sparkles className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-primary">IA Respeitosa</h3>
+                  <h3 className="text-2xl font-heading font-bold mb-4 text-primary">Assistência Inteligente</h3>
                   <p className="text-foreground/70 leading-relaxed">
-                    Nossa assistência imita um leitor beta respeitoso. Apontamos inconsistências e oferecemos sugestões breves, nunca impondo um estilo ou solução.
+                    Ferramentas de análise narrativa que respeitam seu estilo. Apontamos inconsistências e oferecemos sugestões breves, nunca impondo soluções.
                   </p>
                 </div>
               </div>
@@ -500,9 +500,9 @@ export default function HomePage() {
                   <Share2 className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-white">Propriedade de Dados</h3>
+                  <h3 className="text-2xl font-heading font-bold mb-4 text-white">Controle Total</h3>
                   <p className="text-foreground/70 leading-relaxed">
-                    Seus mundos pertencem a você. Exporte suas árvores narrativas, linhas do tempo e manuscritos para PDF ou formatos de imagem instantaneamente. Sem bloqueio.
+                    Seus mundos pertencem a você. Exporte suas árvores narrativas, linhas do tempo e manuscritos para PDF ou formatos de imagem instantaneamente. Sem limitações.
                   </p>
                 </div>
               </div>
