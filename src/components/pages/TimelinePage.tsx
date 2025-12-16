@@ -10,10 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useStoryStore } from '@/stores/storyStore';
-import { Plus, Clock, Download, Calendar } from 'lucide-react';
+import { Plus, Clock, Download, Calendar, Trash2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 
 export default function TimelinePage() {
   const { toast } = useToast();
@@ -25,6 +26,8 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(true);
   const [showNewEvent, setShowNewEvent] = useState(false);
   const [selectedEra, setSelectedEra] = useState<string>('all');
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
     eventName: '',
@@ -136,6 +139,28 @@ export default function TimelinePage() {
       toast({
         title: 'Erro ao criar evento',
         description: 'Não foi possível criar o evento.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleDeleteEvent = async () => {
+    if (!eventToDelete) return;
+
+    try {
+      await BaseCrudService.delete('eventosdalinhadotempo', eventToDelete);
+      await loadTimelineData();
+      setShowDeleteDialog(false);
+      setEventToDelete(null);
+      
+      toast({
+        title: 'Evento deletado!',
+        description: 'O evento foi removido da linha do tempo.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Erro ao deletar evento',
+        description: 'Não foi possível deletar o evento.',
         variant: 'destructive',
       });
     }
@@ -384,6 +409,17 @@ export default function TimelinePage() {
                                 </p>
                               )}
                             </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setEventToDelete(event._id);
+                                setShowDeleteDialog(true);
+                              }}
+                              className="text-destructive hover:bg-destructive/10"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
                           </div>
 
                           {event.eventDescription && (
@@ -410,6 +446,31 @@ export default function TimelinePage() {
           )}
         </div>
       </main>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-graphite border-destructive/20">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-foreground font-heading flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-destructive" />
+              Deletar Evento
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-foreground/70">
+              Tem certeza que deseja deletar este evento? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex gap-3 justify-end">
+            <AlertDialogCancel className="border-primary/20 text-foreground hover:bg-primary/10">
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteEvent}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Deletar
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>

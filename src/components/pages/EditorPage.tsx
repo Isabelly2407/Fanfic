@@ -11,8 +11,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useStoryStore } from '@/stores/storyStore';
-import { Plus, Save, PenTool, AlertCircle, CheckCircle, BookOpen } from 'lucide-react';
+import { Plus, Save, PenTool, AlertCircle, CheckCircle, BookOpen, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 
 export default function EditorPage() {
   const { member } = useMember();
@@ -24,6 +25,8 @@ export default function EditorPage() {
   const [events, setEvents] = useState<EventosdaLinhadoTempo[]>([]);
   const [loading, setLoading] = useState(true);
   const [showNewStory, setShowNewStory] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [storyToDelete, setStoryToDelete] = useState<string | null>(null);
   
   const [newStory, setNewStory] = useState({
     title: '',
@@ -159,6 +162,46 @@ export default function EditorPage() {
     }
   };
 
+  const handleDeleteStory = async () => {
+    if (!storyToDelete) return;
+
+    try {
+      // Delete all relationships associated with this story
+      const { items: relationships } = await BaseCrudService.getAll('relacoesdepersonagens');
+      for (const rel of relationships) {
+        if (rel.storyId === storyToDelete) {
+          await BaseCrudService.delete('relacoesdepersonagens', rel._id);
+        }
+      }
+
+      // Delete all events associated with this story
+      const { items: events } = await BaseCrudService.getAll('eventosdalinhadotempo');
+      for (const event of events) {
+        if (event.storyId === storyToDelete) {
+          await BaseCrudService.delete('eventosdalinhadotempo', event._id);
+        }
+      }
+
+      // Delete the story itself
+      await BaseCrudService.delete('historias', storyToDelete);
+      
+      await loadData();
+      setShowDeleteDialog(false);
+      setStoryToDelete(null);
+      
+      toast({
+        title: 'História deletada!',
+        description: 'A história e todos seus dados foram removidos.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Erro ao deletar história',
+        description: 'Não foi possível deletar a história.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   const insertLink = (type: 'character' | 'event', id: string, name: string) => {
     const link = `[${name}](#${type}:${id})`;
     const textarea = document.querySelector('textarea');
@@ -239,20 +282,32 @@ export default function EditorPage() {
                 ) : (
                   <div className="space-y-2">
                     {stories.map((story) => (
-                      <button
-                        key={story._id}
-                        onClick={() => setActiveStory(story)}
-                        className={`w-full text-left p-3 rounded-lg transition-colors ${
-                          activeStory?._id === story._id
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-background hover:bg-primary/10 text-foreground'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <BookOpen className="w-4 h-4 flex-shrink-0" />
-                          <span className="font-paragraph text-sm truncate">{story.title}</span>
-                        </div>
-                      </button>
+                      <div key={story._id} className="flex gap-2">
+                        <button
+                          onClick={() => setActiveStory(story)}
+                          className={`flex-1 text-left p-3 rounded-lg transition-colors ${
+                            activeStory?._id === story._id
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-background hover:bg-primary/10 text-foreground'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <BookOpen className="w-4 h-4 flex-shrink-0" />
+                            <span className="font-paragraph text-sm truncate">{story.title}</span>
+                          </div>
+                        </button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setStoryToDelete(story._id);
+                            setShowDeleteDialog(true);
+                          }}
+                          className="text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -353,6 +408,31 @@ export default function EditorPage() {
           </div>
         </div>
       </main>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-graphite border-destructive/20">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-foreground font-heading flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-destructive" />
+              Deletar História
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-foreground/70">
+              Tem certeza que deseja deletar esta história? Todos os eventos, personagens e relações associadas também serão removidos. Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex gap-3 justify-end">
+            <AlertDialogCancel className="border-primary/20 text-foreground hover:bg-primary/10">
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteStory}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Deletar
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>
