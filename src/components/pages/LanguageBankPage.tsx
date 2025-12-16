@@ -6,7 +6,8 @@ import Footer from '@/components/layout/Footer';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { BookMarked, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { BookMarked, Search, Sparkles, Copy, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LanguageBankPage() {
@@ -16,6 +17,9 @@ export default function LanguageBankPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
+  const [showAiSuggestions, setShowAiSuggestions] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     loadSuggestions();
@@ -39,6 +43,105 @@ export default function LanguageBankPage() {
   const getUniqueCategories = () => {
     const categories = suggestions.map(s => s.category).filter(Boolean);
     return Array.from(new Set(categories));
+  };
+
+  const generateAiSuggestions = async () => {
+    if (!searchTerm.trim()) {
+      toast({
+        title: 'Digite um termo',
+        description: 'Por favor, digite o tipo de linguagem ou palavra que deseja explorar.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      // Simulate AI suggestions based on search term
+      const suggestions = generateLanguageSuggestions(searchTerm);
+      setAiSuggestions(suggestions);
+      setShowAiSuggestions(true);
+      
+      toast({
+        title: 'Sugestões geradas!',
+        description: `${suggestions.length} palavras relacionadas a "${searchTerm}" foram encontradas.`,
+      });
+    } catch (error) {
+      toast({
+        title: 'Erro ao gerar sugestões',
+        description: 'Não foi possível gerar as sugestões de IA.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const generateLanguageSuggestions = (term: string): string[] => {
+    const term_lower = term.toLowerCase();
+    
+    // Mapping of language types to related words
+    const languageSuggestions: { [key: string]: string[] } = {
+      // Emotions
+      'tristeza': ['melancolia', 'desespero', 'angústia', 'luto', 'pesar', 'desolação', 'sofrimento', 'mágoa'],
+      'alegria': ['felicidade', 'euforia', 'contentamento', 'júbilo', 'regozijo', 'deleite', 'satisfação', 'exultação'],
+      'raiva': ['fúria', 'ódio', 'indignação', 'rancor', 'ressentimento', 'cólera', 'ira', 'exasperação'],
+      'medo': ['terror', 'pavor', 'horror', 'pânico', 'apreensão', 'angústia', 'temor', 'fobia'],
+      'amor': ['afeto', 'carinho', 'paixão', 'devoção', 'ternura', 'adoração', 'afeição', 'estima'],
+      
+      // Descriptions
+      'beleza': ['esplendor', 'formosura', 'graça', 'elegância', 'encanto', 'lindeza', 'magnificência', 'brilho'],
+      'fealdade': ['deformidade', 'grotesco', 'repugnância', 'asquerosidade', 'desagrado', 'feiura', 'abominação'],
+      'escuridão': ['treva', 'penumbra', 'sombra', 'obscuridade', 'breu', 'negrume', 'escurecimento', 'silhueta'],
+      'luz': ['brilho', 'claridade', 'luminosidade', 'fulgor', 'resplendor', 'clarão', 'lume', 'iluminação'],
+      'silêncio': ['quietude', 'mutismo', 'repouso', 'calma', 'paz', 'tranquilidade', 'serenidade', 'imobilidade'],
+      
+      // Actions
+      'correr': ['disparar', 'galpar', 'precipitar-se', 'apressar-se', 'voar', 'arremessar-se', 'lançar-se', 'fugir'],
+      'caminhar': ['perambular', 'deambular', 'passear', 'marchar', 'avançar', 'progredir', 'transitar', 'desfilar'],
+      'falar': ['proferir', 'articular', 'pronunciar', 'expressar', 'comunicar', 'dialogar', 'conversar', 'discursar'],
+      'olhar': ['contemplar', 'observar', 'fixar', 'vislumbrar', 'encarar', 'perscrutar', 'examinar', 'avistar'],
+      'ouvir': ['escutar', 'auscultar', 'perceber', 'apanhar', 'captar', 'atender', 'prestar atenção', 'obedecer'],
+      
+      // Nature
+      'chuva': ['precipitação', 'aguaceiro', 'temporal', 'chuvisco', 'dilúvio', 'chuvarada', 'garoa', 'neblina'],
+      'vento': ['brisa', 'ventania', 'rajada', 'sopro', 'corrente de ar', 'tufão', 'furacão', 'zéfiro'],
+      'fogo': ['chama', 'incêndio', 'fogueira', 'brasas', 'labaredas', 'queimação', 'ardor', 'combustão'],
+      'água': ['líquido', 'fluido', 'corrente', 'torrente', 'onda', 'maré', 'caudal', 'fluxo'],
+      'árvore': ['arvoredo', 'floresta', 'mata', 'bosque', 'selva', 'vegetação', 'copado', 'frondoso'],
+      
+      // Time
+      'noite': ['escuridão', 'anoitecer', 'madrugada', 'crepúsculo', 'alvorada', 'aurora', 'amanhecer', 'entardecer'],
+      'dia': ['claridade', 'luz solar', 'amanhecer', 'meio-dia', 'tarde', 'crepúsculo', 'iluminação', 'brilho'],
+      'rápido': ['veloz', 'acelerado', 'precipitado', 'célere', 'ligeiro', 'expedito', 'ágil', 'rápido'],
+      'lento': ['moroso', 'vagaroso', 'preguiçoso', 'indolente', 'letárgico', 'pachorrento', 'arrastado', 'demorado'],
+    };
+
+    // Find matching suggestions
+    let results: string[] = [];
+    
+    for (const [key, values] of Object.entries(languageSuggestions)) {
+      if (key.includes(term_lower) || term_lower.includes(key)) {
+        results = [...results, ...values];
+      }
+    }
+
+    // If no exact match, search in all values
+    if (results.length === 0) {
+      for (const values of Object.values(languageSuggestions)) {
+        results = [...results, ...values.filter(v => v.includes(term_lower))];
+      }
+    }
+
+    // Remove duplicates and return
+    return Array.from(new Set(results)).slice(0, 12);
+  };
+
+  const copyToClipboard = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+    toast({
+      title: 'Copiado!',
+      description: `"${text}" foi copiado para a área de transferência.`,
+    });
   };
 
   const filteredSuggestions = suggestions.filter(suggestion => {
@@ -79,16 +182,24 @@ export default function LanguageBankPage() {
 
           {/* Filters */}
           <Card className="bg-graphite border-primary/20 p-6 mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground/40" />
                 <Input
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Buscar sugestões..."
+                  onKeyPress={(e) => e.key === 'Enter' && generateAiSuggestions()}
+                  placeholder="Buscar sugestões ou tipo de linguagem..."
                   className="pl-10 bg-background border-primary/20 text-foreground"
                 />
               </div>
+              <Button 
+                onClick={generateAiSuggestions}
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Gerar Sugestões IA
+              </Button>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="bg-background border-primary/20 text-foreground">
                   <SelectValue placeholder="Todas as categorias" />
@@ -104,6 +215,38 @@ export default function LanguageBankPage() {
               </Select>
             </div>
           </Card>
+
+          {/* AI Suggestions */}
+          {showAiSuggestions && aiSuggestions.length > 0 && (
+            <Card className="bg-graphite border-secondary/30 p-6 mb-8">
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles className="w-5 h-5 text-secondary" />
+                <h2 className="text-xl font-heading font-semibold text-foreground">
+                  Sugestões de IA para "{searchTerm}"
+                </h2>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {aiSuggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => copyToClipboard(suggestion, index)}
+                    className="p-3 bg-background border border-secondary/30 rounded-lg hover:border-secondary/60 hover:bg-secondary/10 transition-all group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-paragraph text-foreground group-hover:text-secondary">
+                        {suggestion}
+                      </span>
+                      {copiedIndex === index ? (
+                        <Check className="w-4 h-4 text-secondary ml-2 flex-shrink-0" />
+                      ) : (
+                        <Copy className="w-4 h-4 text-foreground/40 group-hover:text-secondary ml-2 flex-shrink-0" />
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </Card>
+          )}
 
           {/* Suggestions Grid */}
           {filteredSuggestions.length === 0 ? (

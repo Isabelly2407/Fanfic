@@ -387,6 +387,16 @@ export default function EditorPage() {
                           <Save className="w-4 h-4 mr-2" />
                           Salvar
                         </Button>
+                        <Button
+                          onClick={() => {
+                            setStoryToDelete(activeStory._id);
+                            setShowDeleteDialog(true);
+                          }}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Deletar
+                        </Button>
                       </div>
                     </div>
                   </Card>
