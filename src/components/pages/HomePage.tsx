@@ -1,4 +1,3 @@
-// HPI 1.6-V
 import React, { useState, useEffect, useRef } from 'react';
 import { useMember } from '@/integrations';
 import { Button } from '@/components/ui/button';
@@ -23,9 +22,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Image } from '@/components/ui/image';
 
-// --- Utility Components for "Living Experience" ---
-
-// 1. Intersection Observer Reveal (Mandatory Pattern)
 type AnimatedElementProps = {
   children: React.ReactNode;
   className?: string;
@@ -84,7 +80,6 @@ const AnimatedElement: React.FC<AnimatedElementProps> = ({
     );
 };
 
-// 2. Mouse-following Gradient Border (Neon Codex Effect)
 const NeonCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -117,8 +112,6 @@ const NeonCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
   );
 };
 
-// --- Main Page Component ---
-
 export default function HomePage() {
   const { isAuthenticated, actions } = useMember();
   const navigate = useNavigate();
@@ -129,7 +122,6 @@ export default function HomePage() {
     restDelta: 0.001
   });
 
-  // --- Canonical Data Sources ---
   const codeLines = [
     '// Capítulo 1: O Despertar',
     'const personagem = {',
@@ -182,7 +174,6 @@ export default function HomePage() {
     },
   ];
 
-  // --- Custom Styles for Scoped Effects ---
   const customStyles = `
     .bg-grid-pattern {
       background-size: 40px 40px;
@@ -204,7 +195,6 @@ export default function HomePage() {
     <div className="min-h-screen bg-background text-foreground font-paragraph selection:bg-primary/30 selection:text-primary-foreground overflow-x-hidden">
       <style>{customStyles}</style>
       
-      {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left"
         style={{ scaleX }}
@@ -212,9 +202,7 @@ export default function HomePage() {
 
       <Header />
 
-      {/* --- HERO SECTION: The Digital Canvas --- */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Dynamic Background */}
         <div className="absolute inset-0 bg-background z-0">
           <div className="absolute inset-0 bg-grid-pattern opacity-30" />
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-background via-transparent to-background" />
@@ -237,7 +225,6 @@ export default function HomePage() {
         </div>
 
         <div className="container relative z-10 mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Content */}
           <div className="space-y-8">
             <AnimatedElement delay={100}>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-mono tracking-wider uppercase">
@@ -245,22 +232,22 @@ export default function HomePage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                System Online v2.0
+                Sistema Online v2.0
               </div>
             </AnimatedElement>
 
             <AnimatedElement delay={200}>
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-heading font-bold leading-tight tracking-tight">
-                Craft Your <br />
+                Crie Seus <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-secondary text-glow">
-                  Digital Worlds
+                  Mundos Narrativos
                 </span>
               </h1>
             </AnimatedElement>
 
             <AnimatedElement delay={300}>
               <p className="text-xl text-foreground/60 max-w-xl leading-relaxed">
-                The ultimate narrative engine for literary architects. Organize characters, visualize timelines, and weave complex stories in a high-tech environment designed for focus.
+                O mecanismo narrativo definitivo para arquitetos literários. Organize personagens, visualize linhas do tempo e teia histórias complexas em um ambiente de alta tecnologia projetado para foco.
               </p>
             </AnimatedElement>
 
@@ -273,7 +260,7 @@ export default function HomePage() {
                     className="bg-primary text-white hover:bg-primary/90 font-heading text-lg px-8 h-14 rounded-none border-l-4 border-secondary"
                   >
                     <Terminal className="mr-2 h-5 w-5" />
-                    Initialize Editor
+                    Inicializar Editor
                   </Button>
                 ) : (
                   <Button
@@ -282,7 +269,7 @@ export default function HomePage() {
                     className="bg-primary text-white hover:bg-primary/90 font-heading text-lg px-8 h-14 rounded-none border-l-4 border-secondary"
                   >
                     <Zap className="mr-2 h-5 w-5" />
-                    Start Sequence
+                    Iniciar Sequência
                   </Button>
                 )}
                 <Button
@@ -290,16 +277,14 @@ export default function HomePage() {
                   size="lg"
                   className="border-white/20 text-foreground hover:bg-white/5 font-heading text-lg px-8 h-14 rounded-none"
                 >
-                  Explore System
+                  Explorar Sistema
                 </Button>
               </div>
             </AnimatedElement>
           </div>
 
-          {/* Right: Visual (Code Terminal) */}
           <AnimatedElement direction="left" delay={500} className="relative hidden lg:block">
             <div className="relative">
-              {/* Decorative Elements behind terminal */}
               <div className="absolute -top-10 -right-10 w-full h-full border border-primary/20 z-0" />
               <div className="absolute -bottom-10 -left-10 w-full h-full border border-secondary/20 z-0" />
               
@@ -309,7 +294,6 @@ export default function HomePage() {
                 transition={{ type: "spring", stiffness: 300 }}
                 style={{ perspective: 1000 }}
               >
-                {/* Terminal Header */}
                 <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
                   <div className="flex gap-2">
                     <div className="w-3 h-3 rounded-full bg-red-500/50" />
@@ -319,7 +303,6 @@ export default function HomePage() {
                   <div className="text-xs font-mono text-white/30">story_engine.tsx</div>
                 </div>
 
-                {/* Terminal Content */}
                 <div className="p-8 font-mono text-sm md:text-base leading-loose">
                   {codeLines.map((line, index) => (
                     <motion.div
@@ -349,18 +332,16 @@ export default function HomePage() {
           </AnimatedElement>
         </div>
 
-        {/* Scroll Indicator */}
         <motion.div 
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <span className="text-[10px] uppercase tracking-widest">Scroll to Initialize</span>
+          <span className="text-[10px] uppercase tracking-widest">Role para Inicializar</span>
           <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent" />
         </motion.div>
       </section>
 
-      {/* --- TICKER SECTION --- */}
       <div className="w-full bg-primary/5 border-y border-primary/10 overflow-hidden py-3">
         <motion.div 
           className="flex whitespace-nowrap gap-16 text-sm font-mono text-primary/60 uppercase tracking-widest"
@@ -369,27 +350,26 @@ export default function HomePage() {
         >
           {[...Array(4)].map((_, i) => (
             <React.Fragment key={i}>
-              <span className="flex items-center gap-2"><Cpu className="w-4 h-4" /> Narrative Engine Active</span>
-              <span className="flex items-center gap-2"><GitBranch className="w-4 h-4" /> Timeline Synchronization</span>
-              <span className="flex items-center gap-2"><Users className="w-4 h-4" /> Character Database Loaded</span>
-              <span className="flex items-center gap-2"><Sparkles className="w-4 h-4" /> AI Assistant Standby</span>
+              <span className="flex items-center gap-2"><Cpu className="w-4 h-4" /> Motor Narrativo Ativo</span>
+              <span className="flex items-center gap-2"><GitBranch className="w-4 h-4" /> Sincronização de Linha do Tempo</span>
+              <span className="flex items-center gap-2"><Users className="w-4 h-4" /> Banco de Dados de Personagens</span>
+              <span className="flex items-center gap-2"><Sparkles className="w-4 h-4" /> Assistente IA em Espera</span>
             </React.Fragment>
           ))}
         </motion.div>
       </div>
 
-      {/* --- FEATURES GRID: The Modules --- */}
       <section className="py-32 relative">
         <div className="container mx-auto px-6">
           <div className="mb-20 max-w-3xl">
             <AnimatedElement>
               <h2 className="text-5xl font-heading font-bold mb-6">
-                System <span className="text-primary">Modules</span>
+                Módulos do <span className="text-primary">Sistema</span>
               </h2>
             </AnimatedElement>
             <AnimatedElement delay={100}>
               <p className="text-xl text-foreground/60">
-                A comprehensive suite of tools engineered to augment your creative capabilities without overriding your artistic intent.
+                Um conjunto abrangente de ferramentas projetadas para aumentar suas capacidades criativas sem substituir sua intenção artística.
               </p>
             </AnimatedElement>
           </div>
@@ -408,7 +388,7 @@ export default function HomePage() {
                     {feature.description}
                   </p>
                   <div className="mt-6 flex items-center text-sm font-mono text-primary/50 group-hover:text-primary transition-colors">
-                    <span className="uppercase tracking-wider">Access Module</span>
+                    <span className="uppercase tracking-wider">Acessar Módulo</span>
                     <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </NeonCard>
@@ -418,57 +398,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- IMMERSIVE SPLIT SECTION: The Architecture --- */}
       <section className="py-32 bg-graphite/20 relative clip-diagonal">
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
         
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
-            {/* Left: Sticky Content */}
             <div className="relative h-[600px] w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
                <Image 
                  src="https://static.wixstatic.com/media/e2fff9_d53b5ca437c44ad7b0fa1eaea3431351~mv2.png?originWidth=768&originHeight=576"
-                 alt="Interactive Narrative Tree Visualization showing character connections"
+                 alt="Visualização interativa da Árvore Narrativa mostrando conexões entre personagens"
                  className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700"
                  width={800}
                />
                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                <div className="absolute bottom-8 left-8 right-8">
                  <div className="inline-block px-3 py-1 mb-4 bg-secondary/20 text-secondary text-xs font-mono rounded-full border border-secondary/30">
-                   VISUALIZATION ENGINE
+                   MECANISMO DE VISUALIZAÇÃO
                  </div>
-                 <h3 className="text-3xl font-heading font-bold mb-2">Complex Relations Mapped</h3>
+                 <h3 className="text-3xl font-heading font-bold mb-2">Relações Complexas Mapeadas</h3>
                  <p className="text-sm text-foreground/70">
-                   See the invisible threads connecting your characters across time and space.
+                   Veja os fios invisíveis conectando seus personagens através do tempo e do espaço.
                  </p>
                </div>
             </div>
 
-            {/* Right: Scrolling Narrative */}
             <div className="space-y-16">
               <AnimatedElement direction="right">
                 <div className="pl-8 border-l-2 border-primary/30">
-                  <h3 className="text-3xl font-heading font-bold mb-4 text-white">The Narrative Tree</h3>
+                  <h3 className="text-3xl font-heading font-bold mb-4 text-white">A Árvore Narrativa</h3>
                   <p className="text-lg text-foreground/60 leading-relaxed">
-                    Visualize family lineages, social circles, and spiritual connections. Our node-based system allows you to track reincarnations across different eras, ensuring consistency in your lore.
+                    Visualize linhagens familiares, círculos sociais e conexões espirituais. Nosso sistema baseado em nós permite rastrear reencarnações através de diferentes eras, garantindo consistência em sua mitologia.
                   </p>
                 </div>
               </AnimatedElement>
 
               <AnimatedElement direction="right" delay={100}>
                 <div className="pl-8 border-l-2 border-secondary/30">
-                  <h3 className="text-3xl font-heading font-bold mb-4 text-white">Parallel Timelines</h3>
+                  <h3 className="text-3xl font-heading font-bold mb-4 text-white">Linhas do Tempo Paralelas</h3>
                   <p className="text-lg text-foreground/60 leading-relaxed">
-                    Manage events that happen simultaneously or across vast epochs. Link specific timeline events directly to chapters and character life stages. Never lose track of "when" again.
+                    Gerencie eventos que acontecem simultaneamente ou através de épocas vastas. Vincule eventos específicos da linha do tempo diretamente a capítulos e estágios de vida dos personagens. Nunca mais perca o controle do "quando".
                   </p>
                 </div>
               </AnimatedElement>
 
               <AnimatedElement direction="right" delay={200}>
                 <div className="pl-8 border-l-2 border-white/10">
-                  <h3 className="text-3xl font-heading font-bold mb-4 text-white">Character Isolation</h3>
+                  <h3 className="text-3xl font-heading font-bold mb-4 text-white">Isolamento de Personagens</h3>
                   <p className="text-lg text-foreground/60 leading-relaxed">
-                    Keep your workspace clean. The editor contextually understands which characters belong to the current story, preventing database clutter and cognitive overload.
+                    Mantenha seu espaço de trabalho limpo. O editor compreende contextualmente quais personagens pertencem à história atual, prevenindo desordem no banco de dados e sobrecarga cognitiva.
                   </p>
                 </div>
               </AnimatedElement>
@@ -477,56 +454,52 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- PRINCIPLES SECTION: Horizontal Flow --- */}
       <section className="py-32 overflow-hidden">
         <div className="container mx-auto px-6 mb-16">
           <AnimatedElement>
-            <h2 className="text-5xl font-heading font-bold text-center">Core <span className="text-secondary">Directives</span></h2>
+            <h2 className="text-5xl font-heading font-bold text-center">Diretrizes <span className="text-secondary">Principais</span></h2>
           </AnimatedElement>
         </div>
 
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Card 1 */}
             <AnimatedElement delay={0}>
               <div className="bg-gradient-to-br from-white/5 to-transparent p-10 rounded-3xl border border-white/5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <FileText className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-secondary">Author Sovereignty</h3>
+                  <h3 className="text-2xl font-heading font-bold mb-4 text-secondary">Soberania do Autor</h3>
                   <p className="text-foreground/70 leading-relaxed">
-                    We never rewrite your prose automatically. You are the creator; we are the architects providing the blueprint. Your voice remains 100% yours.
+                    Nunca reescrevemos sua prosa automaticamente. Você é o criador; somos os arquitetos fornecendo o projeto. Sua voz permanece 100% sua.
                   </p>
                 </div>
               </div>
             </AnimatedElement>
 
-            {/* Card 2 */}
             <AnimatedElement delay={100}>
               <div className="bg-gradient-to-br from-white/5 to-transparent p-10 rounded-3xl border border-white/5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Sparkles className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-primary">Respectful AI</h3>
+                  <h3 className="text-2xl font-heading font-bold mb-4 text-primary">IA Respeitosa</h3>
                   <p className="text-foreground/70 leading-relaxed">
-                    Our assistance mimics a respectful beta reader. We point out inconsistencies and offer short suggestions, never imposing a style or solution.
+                    Nossa assistência imita um leitor beta respeitoso. Apontamos inconsistências e oferecemos sugestões breves, nunca impondo um estilo ou solução.
                   </p>
                 </div>
               </div>
             </AnimatedElement>
 
-            {/* Card 3 */}
             <AnimatedElement delay={200}>
               <div className="bg-gradient-to-br from-white/5 to-transparent p-10 rounded-3xl border border-white/5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Share2 className="w-32 h-32" />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-white">Data Ownership</h3>
+                  <h3 className="text-2xl font-heading font-bold mb-4 text-white">Propriedade de Dados</h3>
                   <p className="text-foreground/70 leading-relaxed">
-                    Your worlds belong to you. Export your narrative trees, timelines, and manuscripts to PDF or image formats instantly. No lock-in.
+                    Seus mundos pertencem a você. Exporte suas árvores narrativas, linhas do tempo e manuscritos para PDF ou formatos de imagem instantaneamente. Sem bloqueio.
                   </p>
                 </div>
               </div>
@@ -535,12 +508,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- LARGE VISUAL BREAK --- */}
       <section className="h-[60vh] relative w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
            <Image 
              src="https://static.wixstatic.com/media/e2fff9_e4ab55b48248418b8bf9f208705ea81e~mv2.png?originWidth=1920&originHeight=640"
-             alt="Abstract neon landscape representing the vastness of imagination"
+             alt="Paisagem neon abstrata representando a vastidão da imaginação"
              className="w-full h-full object-cover opacity-40"
              width={1920}
            />
@@ -549,27 +521,26 @@ export default function HomePage() {
         <div className="relative z-10 text-center max-w-4xl px-6">
           <AnimatedElement>
             <blockquote className="text-3xl md:text-5xl font-heading font-bold leading-tight">
-              "The scariest moment is always just before you start."
+              "O momento mais assustador é sempre logo antes de você começar."
             </blockquote>
             <cite className="block mt-8 text-xl text-primary font-mono not-italic">— Stephen King</cite>
           </AnimatedElement>
         </div>
       </section>
 
-      {/* --- CTA SECTION --- */}
       <section className="py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
         
         <div className="container mx-auto px-6 relative z-10 text-center">
           <AnimatedElement>
             <h2 className="text-6xl md:text-8xl font-heading font-bold mb-8 tracking-tighter">
-              BEGIN <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">CREATION</span>
+              COMECE A <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">CRIAR</span>
             </h2>
           </AnimatedElement>
           
           <AnimatedElement delay={100}>
             <p className="text-xl text-foreground/60 max-w-2xl mx-auto mb-12">
-              Join the new generation of literary architects. Organize your chaos. Clarify your vision. Write your masterpiece.
+              Junte-se à nova geração de arquitetos literários. Organize seu caos. Esclareça sua visão. Escreva sua obra-prima.
             </p>
           </AnimatedElement>
 
@@ -581,7 +552,7 @@ export default function HomePage() {
                   size="lg"
                   className="bg-white text-black hover:bg-white/90 font-heading text-xl px-12 py-8 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] transition-all duration-300"
                 >
-                  Create Free Account
+                  Criar Conta Grátis
                 </Button>
               )}
               <Button
@@ -590,16 +561,15 @@ export default function HomePage() {
                 size="lg"
                 className="border-white/20 text-white hover:bg-white/10 font-heading text-xl px-12 py-8 rounded-full"
               >
-                View Documentation
+                Ver Documentação
               </Button>
             </div>
           </AnimatedElement>
 
           <div className="mt-20 flex justify-center gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-500">
-             {/* Social Proof / Trust Indicators (Static SVGs for visual weight) */}
-             <div className="flex items-center gap-2"><Download className="w-6 h-6" /> <span className="font-mono">PDF EXPORT</span></div>
-             <div className="flex items-center gap-2"><Share2 className="w-6 h-6" /> <span className="font-mono">CLOUD SYNC</span></div>
-             <div className="flex items-center gap-2"><Zap className="w-6 h-6" /> <span className="font-mono">INSTANT SAVE</span></div>
+             <div className="flex items-center gap-2"><Download className="w-6 h-6" /> <span className="font-mono">EXPORTAR PDF</span></div>
+             <div className="flex items-center gap-2"><Share2 className="w-6 h-6" /> <span className="font-mono">SINCRONIZAÇÃO NA NUVEM</span></div>
+             <div className="flex items-center gap-2"><Zap className="w-6 h-6" /> <span className="font-mono">SALVAMENTO INSTANTÂNEO</span></div>
           </div>
         </div>
       </section>

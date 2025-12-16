@@ -11,8 +11,9 @@ export default function Header() {
 
   return (
     <header className="bg-graphite border-b border-primary/20 sticky top-0 z-50">
-      <div className="max-w-[120rem] mx-auto px-8 py-4">
-        <div className="flex items-center justify-between">
+      <div className="max-w-[120rem] mx-auto px-8">
+        {/* Logo Row */}
+        <div className="flex items-center justify-between py-4 border-b border-primary/10">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-primary-foreground" />
@@ -20,68 +21,8 @@ export default function Header() {
             <h1 className="text-2xl font-heading font-bold text-foreground">Fanfic</h1>
           </Link>
 
-          {isAuthenticated && (
-            <nav className="flex items-center gap-6">
-              <Link
-                to="/editor"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isActive('/editor')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-primary/10'
-                }`}
-              >
-                <BookOpen className="w-4 h-4" />
-                <span className="font-paragraph">Editor</span>
-              </Link>
-              <Link
-                to="/characters"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isActive('/characters')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-primary/10'
-                }`}
-              >
-                <Users className="w-4 h-4" />
-                <span className="font-paragraph">Personagens</span>
-              </Link>
-              <Link
-                to="/narrative-tree"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isActive('/narrative-tree')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-primary/10'
-                }`}
-              >
-                <GitBranch className="w-4 h-4" />
-                <span className="font-paragraph">Árvore</span>
-              </Link>
-              <Link
-                to="/timeline"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isActive('/timeline')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-primary/10'
-                }`}
-              >
-                <Clock className="w-4 h-4" />
-                <span className="font-paragraph">Linha do Tempo</span>
-              </Link>
-              <Link
-                to="/language-bank"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                  isActive('/language-bank')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-primary/10'
-                }`}
-              >
-                <BookMarked className="w-4 h-4" />
-                <span className="font-paragraph">Banco de Linguagem</span>
-              </Link>
-            </nav>
-          )}
-
           <div className="flex items-center gap-4">
-            {isLoading && <div className="text-foreground/60">Carregando...</div>}
+            {isLoading && <div className="text-foreground/60 font-paragraph">Carregando...</div>}
             {!isLoading && !isAuthenticated && (
               <Button onClick={actions.login} className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Entrar
@@ -101,7 +42,7 @@ export default function Header() {
                         {member?.profile?.nickname?.[0]?.toUpperCase() || member?.contact?.firstName?.[0]?.toUpperCase() || 'U'}
                       </span>
                     </div>
-                    <span className="text-foreground font-paragraph">
+                    <span className="text-foreground font-paragraph text-sm">
                       {member?.profile?.nickname || member?.contact?.firstName || 'Usuário'}
                     </span>
                   </div>
@@ -118,6 +59,67 @@ export default function Header() {
             )}
           </div>
         </div>
+
+        {/* Navigation Tabs - Horizontal */}
+        {isAuthenticated && (
+          <nav className="flex items-center gap-2 overflow-x-auto py-2">
+            <Link
+              to="/editor"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                isActive('/editor')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-primary/10'
+              }`}
+            >
+              <BookOpen className="w-4 h-4 flex-shrink-0" />
+              <span className="font-paragraph text-sm">Editor</span>
+            </Link>
+            <Link
+              to="/characters"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                isActive('/characters')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-primary/10'
+              }`}
+            >
+              <Users className="w-4 h-4 flex-shrink-0" />
+              <span className="font-paragraph text-sm">Personagens</span>
+            </Link>
+            <Link
+              to="/narrative-tree"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                isActive('/narrative-tree')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-primary/10'
+              }`}
+            >
+              <GitBranch className="w-4 h-4 flex-shrink-0" />
+              <span className="font-paragraph text-sm">Árvore Narrativa</span>
+            </Link>
+            <Link
+              to="/timeline"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                isActive('/timeline')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-primary/10'
+              }`}
+            >
+              <Clock className="w-4 h-4 flex-shrink-0" />
+              <span className="font-paragraph text-sm">Linha do Tempo</span>
+            </Link>
+            <Link
+              to="/language-bank"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                isActive('/language-bank')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-primary/10'
+              }`}
+            >
+              <BookMarked className="w-4 h-4 flex-shrink-0" />
+              <span className="font-paragraph text-sm">Banco de Linguagem</span>
+            </Link>
+          </nav>
+        )}
       </div>
     </header>
   );
