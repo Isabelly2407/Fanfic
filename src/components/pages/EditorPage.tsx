@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useStoryStore } from '@/stores/storyStore';
-import { Plus, Save, BookOpen, HelpCircle, AlertCircle, CheckCircle } from 'lucide-react';
+import { Plus, Save, PenTool, HelpCircle, AlertCircle, CheckCircle, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function EditorPage() {

@@ -19,8 +19,8 @@ export default {
                 '9xl': ['8rem', { lineHeight: '1', letterSpacing: '-0.05em', fontWeight: '700' }],
             },
             fontFamily: {
-                heading: "space grotesk",
-                paragraph: "roboto"
+                heading: "'Special Elite', cursive",
+                paragraph: "'Special Elite', cursive"
             },
             colors: {
                 graphite: '#444444',

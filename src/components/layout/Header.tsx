@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useMember } from '@/integrations';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Users, GitBranch, Clock, BookMarked, Settings, LogOut } from 'lucide-react';
+import { PenTool, Users, Lightbulb, Calendar, Sparkles, Settings, LogOut } from 'lucide-react';
 
 export default function Header() {
   const { member, isAuthenticated, isLoading, actions } = useMember();
@@ -16,7 +16,7 @@ export default function Header() {
         <div className="flex items-center justify-between py-4 border-b border-primary/10">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <BookOpen className="w-6 h-6 text-primary-foreground" />
+              <PenTool className="w-6 h-6 text-primary-foreground" />
             </div>
             <h1 className="text-2xl font-heading font-bold text-foreground">Fanfic</h1>
           </Link>
@@ -70,8 +70,9 @@ export default function Header() {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-primary/10'
               }`}
+              title="Escrever e editar histórias"
             >
-              <BookOpen className="w-4 h-4 flex-shrink-0" />
+              <PenTool className="w-4 h-4 flex-shrink-0" />
               <span className="font-paragraph text-sm">Editor</span>
             </Link>
             <Link
@@ -81,6 +82,7 @@ export default function Header() {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-primary/10'
               }`}
+              title="Gerenciar personagens"
             >
               <Users className="w-4 h-4 flex-shrink-0" />
               <span className="font-paragraph text-sm">Personagens</span>
@@ -92,8 +94,9 @@ export default function Header() {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-primary/10'
               }`}
+              title="Visualizar conexões entre personagens"
             >
-              <GitBranch className="w-4 h-4 flex-shrink-0" />
+              <Lightbulb className="w-4 h-4 flex-shrink-0" />
               <span className="font-paragraph text-sm">Árvore Narrativa</span>
             </Link>
             <Link
@@ -103,8 +106,9 @@ export default function Header() {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-primary/10'
               }`}
+              title="Gerenciar eventos e datas"
             >
-              <Clock className="w-4 h-4 flex-shrink-0" />
+              <Calendar className="w-4 h-4 flex-shrink-0" />
               <span className="font-paragraph text-sm">Linha do Tempo</span>
             </Link>
             <Link
@@ -114,8 +118,9 @@ export default function Header() {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-primary/10'
               }`}
+              title="Sugestões de linguagem e expressões"
             >
-              <BookMarked className="w-4 h-4 flex-shrink-0" />
+              <Sparkles className="w-4 h-4 flex-shrink-0" />
               <span className="font-paragraph text-sm">Banco de Linguagem</span>
             </Link>
           </nav>

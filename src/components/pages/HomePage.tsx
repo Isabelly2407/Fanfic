@@ -15,7 +15,10 @@ import {
   Terminal, 
   Cpu, 
   Share2, 
-  Zap 
+  Zap,
+  PenTool,
+  Lightbulb,
+  Calendar
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/layout/Header';
@@ -137,7 +140,7 @@ export default function HomePage() {
 
   const features = [
     {
-      icon: BookOpen,
+      icon: PenTool,
       title: 'Editor Avançado',
       description: 'Escreva suas histórias com organização por capítulos e cenas, modo escuro e links interativos.',
       id: 'feat-1'
@@ -149,19 +152,19 @@ export default function HomePage() {
       id: 'feat-2'
     },
     {
-      icon: GitBranch,
+      icon: Lightbulb,
       title: 'Árvore Narrativa',
       description: 'Visualize relações familiares, sociais e espirituais com sistema de reencarnações interativo.',
       id: 'feat-3'
     },
     {
-      icon: Clock,
+      icon: Calendar,
       title: 'Linha do Tempo',
       description: 'Gerencie eventos ligados a personagens, capítulos e vidas com suporte a múltiplas eras.',
       id: 'feat-4'
     },
     {
-      icon: BookMarked,
+      icon: Sparkles,
       title: 'Banco de Linguagem',
       description: 'Acesse sugestões de expressões narrativas e descrições respeitosas sem reescrever seu texto.',
       id: 'feat-5'
@@ -350,8 +353,8 @@ export default function HomePage() {
         >
           {[...Array(4)].map((_, i) => (
             <React.Fragment key={i}>
-              <span className="flex items-center gap-2"><Cpu className="w-4 h-4" /> Motor Narrativo Ativo</span>
-              <span className="flex items-center gap-2"><GitBranch className="w-4 h-4" /> Sincronização de Linha do Tempo</span>
+              <span className="flex items-center gap-2"><PenTool className="w-4 h-4" /> Motor Narrativo Ativo</span>
+              <span className="flex items-center gap-2"><Lightbulb className="w-4 h-4" /> Sincronização de Linha do Tempo</span>
               <span className="flex items-center gap-2"><Users className="w-4 h-4" /> Banco de Dados de Personagens</span>
               <span className="flex items-center gap-2"><Sparkles className="w-4 h-4" /> Assistente IA em Espera</span>
             </React.Fragment>
